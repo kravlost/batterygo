@@ -3,11 +3,13 @@ package main
 import (
 	_ "embed"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/distatus/battery"
 	"github.com/getlantern/systray"
 	"github.com/sqweek/dialog"
+	"gopkg.in/toast.v1"
 )
 
 const (
@@ -41,14 +43,18 @@ func onReady() {
 				systray.SetIcon(getIcon(pci, warningPercentage, charging))
 			}
 
+			if lastPci == 0 && pci <= warningPercentage {
+				dialog.Message("Low battery! %d%%", pci).Title("BatteryGo").Info()
+			}
+
 			if pci < lastPci {
 				switch pci {
 				case warningPercentage:
-					dialog.Message("Battery level: %d%%", pci).Title("BatteryGo").Info()
+					dialog.Message("Low power. Battery level: %d%%", pci).Title("BatteryGo").Info()
 				case warningPercentage - 5:
-					dialog.Message("Battery level: %d%%", pci).Title("BatteryGo").Info()
+					dialog.Message("Plug in soon! Battery level: %d%%", pci).Title("BatteryGo").Info()
 				case warningPercentage - 10:
-					dialog.Message("Battery level: %d%%", pci).Title("BatteryGo").Error()
+					dialog.Message("Plug in now! Battery level: %d%%", pci).Title("BatteryGo").Error()
 				}
 			}
 
@@ -123,4 +129,22 @@ func getIcon(pc, warningPc int, charging bool) []byte {
 	}
 
 	return bytes
+}
+
+func notify(pc int) {
+	notification := toast.Notification{
+		AppID:   "BatteryGo",
+		Title:   "Low battery!",
+		Message: fmt.Sprintf("Battery down to %d%%.", pc),
+		//Icon:    "assets\\battery1.ico", // This file must exist (remove this line if it doesn't)
+		// Actions: []toast.Action{
+		// 	{Type: "protocol", Label: "OK", Arguments: ""},
+		// 	//{"protocol", "Me too!", ""},
+		// },
+		Audio: toast.Default,
+	}
+	err := notification.Push()
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
