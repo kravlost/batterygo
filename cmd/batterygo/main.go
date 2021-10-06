@@ -41,8 +41,15 @@ func onReady() {
 				systray.SetIcon(getIcon(pci, warningPercentage, charging))
 			}
 
-			if pci < lastPci && (pci == warningPercentage || pci == warningPercentage-10) {
-				dialog.Message("Battery level: %d%%", pci).Title("Low battery level!").Info()
+			if pci < lastPci {
+				switch pci {
+				case warningPercentage:
+					dialog.Message("Battery level: %d%%", pci).Title("BatteryGo").Info()
+				case warningPercentage - 5:
+					dialog.Message("Battery level: %d%%", pci).Title("BatteryGo").Info()
+				case warningPercentage - 10:
+					dialog.Message("Battery level: %d%%", pci).Title("BatteryGo").Error()
+				}
 			}
 
 			lastPci = pci
