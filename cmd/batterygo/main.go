@@ -116,11 +116,11 @@ func getIcon(pc, warningPc int, charging bool) []byte {
 	switch {
 	case pc <= warningPc:
 		bytes = icon1
-	case float32(pc-warningPc)/float32(100-warningPc) < 0.25:
+	case float32(pc-warningPc)/float32(100-warningPc) < 0.17:
 		bytes = icon2
-	case float32(pc-warningPc)/float32(100-warningPc) < 0.50:
+	case float32(pc-warningPc)/float32(100-warningPc) < 0.33:
 		bytes = icon3
-	case float32(pc-warningPc)/float32(100-warningPc) < 0.75:
+	case float32(pc-warningPc)/float32(100-warningPc) < 0.50:
 		bytes = icon4
 	default:
 		bytes = icon5
