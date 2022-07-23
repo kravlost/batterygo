@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	warningPercentage = 40
+	warningPercentage = 50
 )
 
 func main() {

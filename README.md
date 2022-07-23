@@ -1,8 +1,8 @@
 # BatteryGo
 
-System tray app in Go to show warnings when the battery level drops below a specified level, currently set to 40%. The battery state is read once a minute.
+System tray app in Go to show warnings when the battery level drops below a specified level, currently set to 50%. The battery state is read once a minute.
 
-This was written because my laptop started shutting down when the battery got to around 30% and I wanted some warning.
+This was written because my laptop started shutting down when the battery got to around 30-40% and I wanted some warning.
 
 The system tray and warning dialog libraries are cross-platform, but BatteryGo has only built and tested this on Windows 10.
 
